@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Projectile.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
 
 
 // Sets default values
