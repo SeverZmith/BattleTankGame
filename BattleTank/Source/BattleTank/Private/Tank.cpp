@@ -4,7 +4,6 @@
 #include "TankBarrel.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 
 
@@ -14,19 +13,19 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	UE_LOG(LogTemp, Warning, TEXT("Making me..."));
-
 }
 
 void ATank::BeginPlay()
 {
 	Super::BeginPlay(); // Needed for BP BeginPlayer to run!
 
+	UE_LOG(LogTemp, Warning, TEXT("Making me..."));
+
 }
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent)
+	if (!ensure(TankAimingComponent))
 	{
 		return;
 	}
@@ -35,9 +34,14 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
+	if (!ensure(Barrel))
+	{
+		return;
+	}
+
 	bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	if (Barrel && IsReloaded)
+	if (IsReloaded)
 	{
 		// Spawn a projectile at the socket location of barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(

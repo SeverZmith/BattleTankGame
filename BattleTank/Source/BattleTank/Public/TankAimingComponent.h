@@ -35,7 +35,7 @@ public:
 protected:
 	// Asking to access this property from a sub-class, so we place under protected
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Aiming;
+	EFiringState FiringState = EFiringState::Locked;
 
 private:
 	// Sets default values for this component's properties
