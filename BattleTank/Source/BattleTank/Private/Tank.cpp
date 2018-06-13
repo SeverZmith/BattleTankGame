@@ -19,7 +19,7 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay(); // Needed for BP BeginPlayer to run!
 
-	UE_LOG(LogTemp, Warning, TEXT("Making me..."));
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 
 }
 
