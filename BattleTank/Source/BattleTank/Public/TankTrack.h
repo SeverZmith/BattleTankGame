@@ -28,7 +28,11 @@ private:
 
 	virtual void BeginPlay() override;
 
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	void ApplySidewaysForce();
+
+	void DriveTracks();
+
+	float CurrentThrottle = 0.f;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);

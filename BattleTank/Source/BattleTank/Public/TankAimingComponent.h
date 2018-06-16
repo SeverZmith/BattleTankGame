@@ -12,7 +12,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
 
 // Forward Declarations
@@ -36,6 +37,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
+	EFiringState GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetRoundsLeft() const;
+
 protected:
 	// Asking to access this property from a sub-class, so we place under protected
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -57,7 +63,7 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 4000.f;
+	float LaunchSpeed = 8000.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3.f;
@@ -69,5 +75,7 @@ private:
 	float LastFireTime = 0.f;
 
 	FVector AimDirection;
+
+	int RoundsLeft = 3;
 
 };
