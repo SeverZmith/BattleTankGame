@@ -1,6 +1,3 @@
-# Exclude starter content package from Unreal
-Content/StarterContent/*
-
 # Visual Studio 2015 user specific files
 .vs/
 
