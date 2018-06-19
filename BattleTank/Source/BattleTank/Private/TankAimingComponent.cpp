@@ -14,13 +14,14 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	bWantsBeginPlay = true;
+	//bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
 }
 
 void UTankAimingComponent::BeginPlay()
 {
+	Super::BeginPlay();
 	// First fire will be after an initial reload. (tank will not spawn loaded)
 	LastFireTime = GetWorld()->GetTimeSeconds();
 }
