@@ -10,12 +10,14 @@
 UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
 	float CurrentThrottle = FMath::Clamp<float>(Throttle, -1, 1);
 	DriveTracks(CurrentThrottle);
+
 }
 
 void UTankTrack::DriveTracks(float CurrentThrottle)
@@ -27,7 +29,9 @@ void UTankTrack::DriveTracks(float CurrentThrottle)
 	for (ASprungWheel* Wheel : Wheels)
 	{
 		Wheel->AddDrivingForce(ForcePerWheel);
+
 	}
+
 }
 
 TArray<ASprungWheel*> UTankTrack::GetWheels() const
@@ -41,14 +45,18 @@ TArray<ASprungWheel*> UTankTrack::GetWheels() const
 		if (!SpawnPointChild)
 		{
 			continue;
+
 		}
 		AActor* SpawnedChild = SpawnPointChild->GetSpawnedActor();
 		auto SprungWheel = Cast<ASprungWheel>(SpawnedChild);
 		if (!SprungWheel)
 		{
 			continue;
+
 		}
 		ResultArray.Add(SprungWheel);
+
 	}
 	return ResultArray;
+
 }

@@ -6,19 +6,15 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
-// Forward Declarations
 
-/**
- * 
- */
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
 protected:
+	// How close an AI needs to be to the player before pursuing.
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	// How close an AI needs to be to the player before pursuing
 	float AcceptanceRadius = 8000.f;
 
 private:

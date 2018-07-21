@@ -14,6 +14,7 @@ enum class EFiringState : uint8
 	Aiming,
 	Locked,
 	OutOfAmmo
+
 };
 
 // Forward Declarations
@@ -48,7 +49,6 @@ protected:
 	EFiringState FiringState = EFiringState::Reloading;
 
 private:
-	// Sets default values for this component's properties
 	UTankAimingComponent();
 
 	virtual void BeginPlay() override;

@@ -14,13 +14,16 @@ void ATankPlayerController::BeginPlay()
 	if (!GetPawn())
 	{
 		return;
+
 	}
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent))
 	{
 		return;
+
 	}
 	FoundAimingComponent(AimingComponent);
+
 }
 
 void ATankPlayerController::SetPawn(APawn* InPawn)
@@ -41,6 +44,7 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 void ATankPlayerController::OnPossessedTankDeath()
 {
 	StartSpectatingOnly();
+
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -48,6 +52,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	AimTowardsCrosshair();
+
 }
 
 void ATankPlayerController::AimTowardsCrosshair()
@@ -55,11 +60,13 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!GetPawn()) // e.g. if not possessing
 	{
 		return;
+
 	}
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent))
 	{
 		return;
+
 	}
 
 	FVector HitLocation; /// Out Parameter
@@ -67,7 +74,9 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (bGotHitLocation)
 	{
 		AimingComponent->AimAt(HitLocation);
+
 	}
+
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
@@ -83,8 +92,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	{
 		// Line-trace that LookDirection and see what we hit (up to max range)
 		return GetLookVectorHitLocation(LookDirection, OUT HitLocation);
+
 	}
 	return false;
+
 }
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
@@ -103,14 +114,17 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	{
 		HitLocation = HitResult.Location;
 		return true;
+
 	}
 	// Sets HitLocation to 0 if looking off into space
 	HitLocation = FVector(0);
 	return false;
+
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
 {
 	FVector CameraWorldLocation;
 	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, OUT LookDirection);
+
 }

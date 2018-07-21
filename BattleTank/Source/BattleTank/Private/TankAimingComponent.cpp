@@ -9,11 +9,8 @@
 #include "Kismet/GameplayStatics.h"
 
 
-// Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
 }
@@ -21,14 +18,17 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
 	// First fire will be after an initial reload. (tank will not spawn loaded)
 	LastFireTime = GetWorld()->GetTimeSeconds();
+
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+
 }
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
@@ -36,20 +36,25 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	if (RoundsLeft <= 0)
 	{
 		FiringState = EFiringState::OutOfAmmo;
+
 	}
 	else if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
 		FiringState = EFiringState::Reloading;
+
 	}
 	else if (IsBarrelMoving())
 	{
 		FiringState = EFiringState::Aiming;
+
 	}
 	else
 	{
 		FiringState = EFiringState::Locked;
+
 	}
 	// TODO handle aiming and locked states
+
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
@@ -57,9 +62,12 @@ bool UTankAimingComponent::IsBarrelMoving()
 	if (!ensure(Barrel))
 	{
 		return false;
+
 	}
+	// If BarrelForward equals AimDirection with a .01 tolerance, return false.
 	auto BarrelForward = Barrel->GetForwardVector();
 	return !BarrelForward.Equals(AimDirection, 0.01);
+
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
@@ -67,11 +75,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	if (!ensure(Barrel))
 	{
 		return;
+
 	}
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
-	// Calculate the OutLaunchVelocity
+	// Calculate the OutLaunchVelocity. UGameplayStatics::SuggestProjectileVelocity returns a bool that indicates if aiming can be completed.
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
 	(
 		this,
@@ -88,7 +97,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	{
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+
 	}
+
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
@@ -96,6 +107,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
 	if (!ensure(Barrel && Turret))
 	{
 		return;
+
 	}
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = TargetAimDirection.Rotation();
@@ -106,11 +118,14 @@ void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
 	if (FMath::Abs(DeltaRotator.Yaw) < 180)
 	{
 		Turret->Rotate(DeltaRotator.Yaw);
+
 	}
 	else
 	{
 		Turret->Rotate(-DeltaRotator.Yaw);
+
 	}
+
 }
 
 void UTankAimingComponent::Fire()
@@ -129,14 +144,17 @@ void UTankAimingComponent::Fire()
 		LastFireTime = GetWorld()->GetTimeSeconds();
 		RoundsLeft--;
 	}
+
 }
 
 EFiringState UTankAimingComponent::GetFiringState() const
 {
 	return FiringState;
+
 }
 
 int32 UTankAimingComponent::GetRoundsLeft() const
 {
 	return RoundsLeft;
+
 }

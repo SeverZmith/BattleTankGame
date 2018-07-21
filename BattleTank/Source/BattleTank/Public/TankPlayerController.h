@@ -10,9 +10,6 @@
 class UTankAimingComponent;
 
 
-/**
- * 
- */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
